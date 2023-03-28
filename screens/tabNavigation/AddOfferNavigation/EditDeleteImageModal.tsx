@@ -48,7 +48,7 @@ const EditDeleteImageModal = ({
             raised={false}
             type='clear'
             uppercase={true}
-            titleStyle={{ color: theme.colors.grey5 }}
+            titleStyle={{ color: theme.colors.grey5, letterSpacing: 1 }}
             title={translate.t("addOffer.editDeleteImageModal.edit")}
             buttonStyle={{
               height: 60,
@@ -62,7 +62,7 @@ const EditDeleteImageModal = ({
             raised={false}
             type='clear'
             uppercase={true}
-            titleStyle={{ color: theme.colors.grey5 }}
+            titleStyle={{ color: theme.colors.grey5, letterSpacing: 1 }}
             title={translate.t("addOffer.editDeleteImageModal.delete")}
             buttonStyle={{
               height: 60,
@@ -76,7 +76,7 @@ const EditDeleteImageModal = ({
             raised={false}
             type='clear'
             uppercase={true}
-            titleStyle={{ color: theme.colors.grey5 }}
+            titleStyle={{ color: theme.colors.grey5, letterSpacing: 1 }}
             title={translate.t("addOffer.editDeleteImageModal.cancel")}
             buttonStyle={{
               height: 60,

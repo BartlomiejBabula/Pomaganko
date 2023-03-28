@@ -3,9 +3,11 @@ import { createTheme } from "@rneui/themed";
 export const theme = createTheme({
   lightColors: {
     primary: "#a2d2ff",
-    secondary: "#233c53",
-    grey5: "#f6f6f6",
-    grey3: "grey",
+    secondary: "#284b63",
+    grey3: "#777",
+    grey4: "#f1f1f1",
+    grey5: "#f7f7f7",
+    success: "#a2d2ff",
   },
   darkColors: {
     primary: "#121212",
@@ -25,66 +27,43 @@ export const theme = createTheme({
 
     Text: () => ({
       h4Style: { fontWeight: "700", fontSize: 20 },
-      style: { color: "#233c53" },
-    }),
-
-    SearchBar: () => ({
-      lightTheme: true,
-      round: true,
-      placeholderTextColor: "#768593",
-      containerStyle: {
-        width: "70%",
-        backgroundColor: "transparent",
-        borderTopWidth: 0,
-        borderBottomWidth: 0,
-        padding: 0,
-      },
-      inputContainerStyle: {
-        height: 42,
-        backgroundColor: "#F5F5F5",
-        shadowColor: "#000",
-        shadowOffset: {
-          width: 0,
-          height: 2,
-        },
-        shadowOpacity: 0.23,
-        shadowRadius: 2.62,
-        elevation: 1,
-      },
-      inputStyle: {
-        fontSize: 16,
-      },
-      searchIcon: { size: 22 },
-      cursorColor: "#2a4865",
     }),
 
     Input: () => ({
       placeholderTextColor: "#768593",
       autoCapitalize: "none",
       autoCorrect: false,
-      cursorColor: "#2a4865",
+      cursorColor: theme.lightColors?.secondary,
       containerStyle: {
         paddingHorizontal: 0,
         marginTop: 5,
       },
-      errorStyle: { marginTop: 6, marginLeft: 6, color: "#ff5555" },
+      errorStyle: {
+        fontSize: 12,
+        marginTop: 3,
+        marginLeft: 6,
+        color: theme.lightColors?.error,
+      },
       labelStyle: {
-        fontSize: 15,
-        marginBottom: 10,
-        color: "#2a4865",
+        fontSize: 13,
+        marginLeft: 5,
+        marginBottom: 5,
         fontWeight: "normal",
       },
       inputStyle: {
-        fontSize: 16,
+        fontSize: 15,
         paddingHorizontal: 16,
-        color: "#2a4865",
         paddingVertical: 12,
       },
       inputContainerStyle: {
-        borderRadius: 4,
-        backgroundColor: theme.lightColors?.grey5,
+        borderRadius: 15,
+        backgroundColor: theme.lightColors?.grey4,
         borderBottomWidth: 0,
       },
+    }),
+
+    Divider: () => ({
+      color: theme.lightColors?.grey4,
     }),
   },
 });

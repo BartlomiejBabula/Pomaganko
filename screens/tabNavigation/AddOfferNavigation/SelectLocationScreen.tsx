@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Input, Icon, Text, Divider, Dialog, useTheme } from "@rneui/themed";
-import { TouchableOpacity, View, ScrollView } from "react-native";
+import { TouchableOpacity, View, ScrollView, SafeAreaView } from "react-native";
 import { useSelector } from "react-redux";
 import { SelectLocationScreenParams } from "../../../types";
 import * as Location from "expo-location";
@@ -38,6 +38,7 @@ const SelectLocationScreen = ({
       longitude: latLong.coords.longitude,
       latitude: latLong.coords.latitude,
     });
+    console.log(location, latLong);
     if (location[0].city) {
       setInputValue(location[0].city);
       navigation.navigate("AddOfferModal", { location: location[0].city });
@@ -46,48 +47,60 @@ const SelectLocationScreen = ({
   };
 
   return (
-    <View style={{ marginHorizontal: 10, marginVertical: 20 }}>
-      <Input
-        placeholder={translate.t("addOffer.selectLocationScreen.placeholder")}
-        inputStyle={{ fontSize: 17 }}
-        errorStyle={{ marginBottom: 0 }}
-        value={inputValue}
-        onChangeText={setInputValue}
-        leftIcon={
+    <SafeAreaView
+      style={{
+        paddingVertical: 40,
+        backgroundColor: theme.colors.white,
+        flex: 1,
+      }}
+    >
+      <View
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          paddingHorizontal: 10,
+        }}
+      >
+        <TouchableOpacity
+          onPress={() => {
+            navigation.goBack();
+          }}
+        >
           <Icon
-            onPress={() => {
-              navigation.goBack();
-            }}
             name='arrow-left'
             size={26}
-            color={theme.colors.secondary}
+            color={theme.colors.black}
             type='material-community'
-            containerStyle={{ marginLeft: 5 }}
+            containerStyle={{ marginRight: 10 }}
           />
-        }
-        rightIcon={
-          <View style={{ flexDirection: "row", alignItems: "center" }}>
-            {inputValue && (
+        </TouchableOpacity>
+        <Input
+          placeholder={translate.t("addOffer.selectLocationScreen.placeholder")}
+          inputStyle={{ fontSize: 15 }}
+          errorStyle={{ marginBottom: 0, height: 0 }}
+          containerStyle={{ height: 45 }}
+          inputContainerStyle={{
+            backgroundColor: "transparent",
+            height: 42,
+            width: "85%",
+          }}
+          value={inputValue}
+          onChangeText={setInputValue}
+          rightIcon={
+            inputValue !== "" && (
               <Icon
                 onPress={handleDelete}
                 name='close'
                 size={22}
-                color={theme.colors.secondary}
+                color={theme.colors.black}
                 type='material-community'
-                containerStyle={{ marginRight: 25 }}
               />
-            )}
-            <Icon
-              name='magnify'
-              size={30}
-              color={theme.colors.primary}
-              type='material-community'
-              containerStyle={{ marginRight: 5 }}
-            />
-          </View>
-        }
-      />
-      <ScrollView>
+            )
+          }
+        />
+      </View>
+      <Divider style={{ marginBottom: 15 }} />
+      <ScrollView style={{ paddingHorizontal: 10 }}>
         {inputValue ? (
           cities
             ?.filter((city: any) =>
@@ -101,7 +114,7 @@ const SelectLocationScreen = ({
                 key={key}
                 style={{ height: 70 }}
               >
-                <Text style={{ fontSize: 17 }}>{city.city}</Text>
+                <Text style={{ fontSize: 15 }}>{city.city}</Text>
                 <Text
                   style={{
                     fontSize: 13,
@@ -119,8 +132,8 @@ const SelectLocationScreen = ({
           <TouchableOpacity onPress={getLocation}>
             <Text
               style={{
-                fontSize: 17,
-                color: error ? theme.colors.error : theme.colors.secondary,
+                fontSize: 15,
+                color: error ? theme.colors.error : theme.colors.black,
               }}
             >
               {error
@@ -131,7 +144,7 @@ const SelectLocationScreen = ({
               style={{
                 fontSize: 13,
                 color: theme.colors.grey3,
-                marginTop: 6,
+                marginTop: 1,
                 marginBottom: 12,
               }}
             >
@@ -143,7 +156,7 @@ const SelectLocationScreen = ({
           <Dialog.Loading />
         )}
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 };
 

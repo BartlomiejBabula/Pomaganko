@@ -4,10 +4,20 @@ import {
   ScrollView,
   TouchableOpacity,
   ActivityIndicator,
+  SafeAreaView,
+  Pressable,
 } from "react-native";
 import { useState, useEffect, useRef } from "react";
 import { AddOfferScreenParams } from "../../../types";
-import { Text, Icon, Button, Image, Input, useTheme } from "@rneui/themed";
+import {
+  Text,
+  Icon,
+  Button,
+  Image,
+  Input,
+  useTheme,
+  Divider,
+} from "@rneui/themed";
 import { useForm, Controller } from "react-hook-form";
 import FormInput from "../../../components/FormInput";
 import * as ImagePicker from "expo-image-picker";
@@ -153,14 +163,14 @@ const AddOfferScreen = ({ navigation, route }: AddOfferScreenParams) => {
       style={{
         width: "100%",
         flexDirection: "row",
-        height: 160,
         marginTop: 8,
         marginBottom: 35,
-        backgroundColor: theme.colors.grey5,
-        borderRadius: 4,
+        backgroundColor: theme.colors.grey4,
+        borderRadius: 15,
         paddingHorizontal: 5,
-        borderColor: imageList[0] ? theme.colors.primary : theme.colors.grey5,
-        borderWidth: 3,
+        borderColor: imageList[0] ? theme.colors.primary : theme.colors.grey4,
+        borderWidth: 2,
+        padding: 5,
       }}
     >
       <View
@@ -187,25 +197,25 @@ const AddOfferScreen = ({ navigation, route }: AddOfferScreenParams) => {
                 style={{
                   alignItems: "center",
                   justifyContent: "center",
-                  marginHorizontal: 8,
+                  marginHorizontal: 10,
                 }}
               >
                 <Image
                   source={{ uri: image }}
                   PlaceholderContent={<ActivityIndicator />}
                   style={{
-                    width: 60,
-                    height: 75,
+                    width: 80,
+                    height: 100,
                     borderRadius: 6,
                     borderColor: theme.colors.primary,
                     borderWidth:
-                      key === selectedImage && editImageListModal ? 3 : 0,
+                      key === selectedImage && editImageListModal ? 2 : 0,
                   }}
                 />
               </TouchableOpacity>
             );
           })}
-          {imageList.length < 4 && (
+          {imageList.length < 3 && (
             <TouchableOpacity
               onPress={() => {
                 handleAddPicture();
@@ -215,16 +225,16 @@ const AddOfferScreen = ({ navigation, route }: AddOfferScreenParams) => {
                 justifyContent: "center",
                 borderRadius: 6,
                 borderWidth: 2,
-                borderColor: theme.colors.secondary,
-                width: 60,
-                height: 75,
+                borderColor: theme.colors.black,
+                width: 80,
+                height: 100,
                 marginLeft: 8,
               }}
             >
               <Icon
                 name='plus'
                 size={28}
-                color={theme.colors.secondary}
+                color={theme.colors.black}
                 type='material-community'
               />
             </TouchableOpacity>
@@ -233,12 +243,10 @@ const AddOfferScreen = ({ navigation, route }: AddOfferScreenParams) => {
             <Text
               h4
               style={{
-                paddingTop: 22,
+                paddingTop: 35,
                 paddingLeft: 50,
                 height: 75,
-                color: errors.picture
-                  ? theme.colors.error
-                  : theme.colors.secondary,
+                color: errors.picture ? theme.colors.error : theme.colors.black,
                 width: "100%",
               }}
             >
@@ -260,17 +268,19 @@ const AddOfferScreen = ({ navigation, route }: AddOfferScreenParams) => {
   );
 
   return (
-    <View style={[styles.container, { backgroundColor: theme.colors.white }]}>
+    <SafeAreaView
+      style={{ backgroundColor: theme.colors.white, paddingTop: 35, flex: 1 }}
+    >
       <View
         style={{
           flexDirection: "row",
-          marginBottom: 10,
+          paddingBottom: 10,
           alignItems: "center",
         }}
       >
         <Icon
           name='window-close'
-          size={25}
+          size={24}
           type='material-community'
           onPress={() => {
             navigation.goBack();
@@ -281,6 +291,7 @@ const AddOfferScreen = ({ navigation, route }: AddOfferScreenParams) => {
           {translate.t("addOffer.title")}
         </Text>
       </View>
+      <Divider />
       <ScrollView
         ref={scrollView}
         style={{ paddingHorizontal: 15, paddingTop: 10 }}
@@ -356,53 +367,52 @@ const AddOfferScreen = ({ navigation, route }: AddOfferScreenParams) => {
             required: true,
           }}
           render={({ field: { onChange, value } }) => (
-            <>
-              <Text
-                style={{
-                  fontSize: 15,
-                  marginBottom: 5,
-                  marginTop: 10,
-                  color: "#2a4865",
-                  fontWeight: "normal",
-                }}
-              >
-                {translate.t("addOffer.input.localization.title")}
-              </Text>
-              <TouchableOpacity
-                onPress={() => {
-                  navigation.navigate("SelectLocation", { location });
-                }}
-              >
-                <Input
-                  placeholder={translate.t(
-                    "addOffer.input.localization.placeholder"
-                  )}
-                  disabled={true}
-                  disabledInputStyle={{ opacity: 1 }}
-                  value={value}
-                  placeholderTextColor='#2a4865'
-                  errorMessage={!value ? errors.location?.message : ""}
-                  inputContainerStyle={{
-                    borderColor:
-                      errors.location?.message && !value
-                        ? "#ff5555"
-                        : value
-                        ? "#a2d2ff"
-                        : "#f6f6f6",
-                    borderBottomWidth: 2,
-                  }}
-                  rightIcon={
+            <Pressable
+              onPress={() => {
+                navigation.navigate("SelectLocation", { location });
+              }}
+            >
+              <Input
+                label={translate.t("addOffer.input.localization.title")}
+                placeholder={translate.t(
+                  "addOffer.input.localization.placeholder"
+                )}
+                disabled={true}
+                disabledInputStyle={{ opacity: 1 }}
+                value={value}
+                errorMessage={!value ? errors.location?.message : ""}
+                rightIcon={
+                  <View style={{ flexDirection: "row", alignItems: "center" }}>
                     <Icon
                       name='chevron-right'
-                      size={38}
-                      color='#2a4865'
+                      size={32}
+                      color={theme.colors.black}
                       type='material-community'
                       containerStyle={{ marginRight: 5 }}
                     />
-                  }
-                />
-              </TouchableOpacity>
-            </>
+                    {errors.location?.message && !value ? (
+                      <Icon
+                        containerStyle={{ marginRight: 10 }}
+                        name='alert-circle-outline'
+                        size={24}
+                        color={theme.colors.error}
+                        type='material-community'
+                      />
+                    ) : (
+                      value && (
+                        <Icon
+                          containerStyle={{ marginRight: 10 }}
+                          name='check-circle-outline'
+                          size={24}
+                          color={theme.colors.success}
+                          type='material-community'
+                        />
+                      )
+                    )}
+                  </View>
+                }
+              />
+            </Pressable>
           )}
           name='location'
         />
@@ -466,7 +476,7 @@ const AddOfferScreen = ({ navigation, route }: AddOfferScreenParams) => {
           color={theme.colors.secondary}
           buttonStyle={{
             paddingVertical: 17,
-            borderRadius: 4,
+            borderRadius: 15,
           }}
           containerStyle={{ marginTop: 16, marginBottom: 35 }}
         />
@@ -476,17 +486,12 @@ const AddOfferScreen = ({ navigation, route }: AddOfferScreenParams) => {
         setEditImageListModal={setEditImageListModal}
         handleModalAction={handleModalAction}
       />
-    </View>
+    </SafeAreaView>
   );
 };
 
 export default AddOfferScreen;
 
 const styles = StyleSheet.create({
-  container: {
-    paddingTop: 40,
-    width: "100%",
-    height: "100%",
-  },
   subtitle: { marginBottom: 10 },
 });

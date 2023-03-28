@@ -3,7 +3,7 @@ import { I18n } from "i18n-js";
 export const translate = new I18n({
   en: {
     addOffer: {
-      title: "Add Advertisement",
+      title: "Add advertisement",
       subtitle: {
         details: "Details",
         photos: "Photos",
@@ -89,10 +89,18 @@ export const translate = new I18n({
         error: "Access to location denied",
       },
     },
+    searchScreen: {
+      searchInputPlaceholder: "Search charity organization",
+    },
+    messages: {
+      title: "Messages",
+      topic: "Topic",
+      inputPlaceholder: "Start message",
+    },
   },
   pl: {
     addOffer: {
-      title: "Dodaj Ogłoszenie",
+      title: "Dodaj ogłoszenie",
       subtitle: {
         details: "Szczególy",
         photos: "Zdjęcia",
@@ -177,6 +185,14 @@ export const translate = new I18n({
         description: "Kliknij aby ustawić swoją aktualną lokalizacje",
         error: "Odmówiono dostępu do lokalizacji",
       },
+    },
+    searchScreen: {
+      searchInputPlaceholder: "Wyszukaj organizacje",
+    },
+    messages: {
+      title: "Wiadomości",
+      topic: "Temat",
+      inputPlaceholder: "Rozpocznij wiadomość",
     },
   },
 });
