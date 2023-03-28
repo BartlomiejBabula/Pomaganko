@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { Input, Text, useTheme } from "@rneui/themed";
+import { Input, Text, useTheme, Icon } from "@rneui/themed";
 import type { KeyboardType } from "react-native";
+import { View } from "react-native";
 
 type InputParams = {
   onChange: any;
@@ -45,22 +46,32 @@ const FormInput = ({
       numberOfLines={multiline ? 5 : 1}
       maxLength={price ? 7 : 360}
       rightIcon={
-        price && <Text style={{ marginRight: 10, fontSize: 17 }}>zł</Text>
+        <View style={{ flexDirection: "row" }}>
+          {price && <Text style={{ marginRight: 15, fontSize: 17 }}>zł</Text>}
+          {error ? (
+            <Icon
+              containerStyle={{ marginRight: 10 }}
+              name='alert-circle-outline'
+              size={24}
+              color={theme.colors.error}
+              type='material-community'
+            />
+          ) : (
+            value && (
+              <Icon
+                containerStyle={{ marginRight: 10 }}
+                name='check-circle-outline'
+                size={24}
+                color={theme.colors.success}
+                type='material-community'
+              />
+            )
+          )}
+        </View>
       }
       errorMessage={error ? errorMessage : ""}
       inputStyle={{
         textAlignVertical: multiline ? "top" : "auto",
-        paddingVertical: 12,
-      }}
-      inputContainerStyle={{
-        borderColor: error
-          ? theme.colors.error
-          : inputFocused
-          ? theme.colors.secondary
-          : value
-          ? theme.colors.primary
-          : theme.colors.grey5,
-        borderBottomWidth: 2,
       }}
     />
   );
