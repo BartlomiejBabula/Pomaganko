@@ -4,7 +4,7 @@ import { TouchableOpacity, View } from "react-native";
 import Animated, { Layout } from "react-native-reanimated";
 import type { ScrollView } from "react-native";
 import React from "react";
-import { translate } from "../i18n";
+import { translate } from "../i18n/i18n";
 
 type ChatInputParams = {
   scrollViewRef: React.RefObject<ScrollView>;

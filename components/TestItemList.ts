@@ -1,0 +1,58 @@
+export const TestItemList = [
+  {
+    organization: "Dom Dziecka Ryś",
+    title: "Wycieczka klasowa",
+    city: "Bielsko-Biała",
+    image: "https://source.unsplash.com/random?sig=10",
+    price: 1000,
+  },
+  {
+    organization: "Dom Dziecka Ryś",
+    title: "Plecak 32L",
+    city: "Wrocław",
+    image: "https://source.unsplash.com/random?sig=13",
+    price: 100,
+  },
+  {
+    organization: "Hospicjum Margaret",
+    title: "Rachunek za prąd",
+    city: "Kielce",
+    image: "https://source.unsplash.com/random?sig=15",
+    price: 12899,
+  },
+  {
+    organization: "Jadłodalnia brata Alberta",
+    title: "Węgiel",
+    city: "Kędzierzyn Koźle",
+    image: "https://source.unsplash.com/random?sig=18",
+    price: 12663,
+  },
+  {
+    organization: "Dom Dziecka Ryś",
+    title: "Źielona szkoła",
+    city: "Bielsko-Biała",
+    image: "https://source.unsplash.com/random?sig=12",
+    price: 190213,
+  },
+  {
+    organization: "Dom Dziecka Wrocław",
+    title: "Wycieczka krajoznawcza",
+    city: "Wrocław",
+    image: "https://source.unsplash.com/random?sig=30",
+    price: 13.32,
+  },
+  {
+    organization: "Jadłodalnia brata Alberta",
+    title: "Obiady",
+    city: "Wrocław",
+    image: "https://source.unsplash.com/random?sig=21",
+    price: 111.11,
+  },
+  {
+    organization: "Szpital Wojewódzki",
+    title: "Rachunek za prąd",
+    city: "Kielce",
+    image: "https://source.unsplash.com/random?sig=27",
+    price: 128,
+  },
+];
