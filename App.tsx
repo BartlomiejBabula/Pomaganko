@@ -1,7 +1,7 @@
 import { StatusBar } from "expo-status-bar";
-import Navigation from "./components/Navigation";
+import Navigation from "./routes/Navigation";
 import { ThemeProvider } from "@rneui/themed";
-import { theme } from "./styles/Theme";
+import { theme } from "./components/Theme";
 import { Provider } from "react-redux";
 import { store } from "./store/AppStore";
 import "react-native-gesture-handler";
