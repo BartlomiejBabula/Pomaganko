@@ -1,5 +1,6 @@
-import { View, Pressable } from "react-native";
-import { useTheme, Text, Card, Image } from "@rneui/themed";
+import { useState } from "react";
+import { View, Pressable, TouchableOpacity } from "react-native";
+import { useTheme, Text, Card, Image, Icon } from "@rneui/themed";
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { TabNavigationParamList } from "../routes/types";
 
@@ -14,7 +15,6 @@ export const numberToStringPrice = (n: number) => {
 };
 
 type OfferCard = {
-  key: number;
   navigation:
     | NativeStackNavigationProp<TabNavigationParamList, "CharityProfile">
     | NativeStackNavigationProp<TabNavigationParamList, "Search">
@@ -27,7 +27,6 @@ type OfferCard = {
 };
 
 const OfferListCard = ({
-  key,
   navigation,
   uri,
   title,
@@ -36,19 +35,36 @@ const OfferListCard = ({
   city,
 }: OfferCard) => {
   const { theme } = useTheme();
+  const [favorite, setFavorite] = useState<boolean>(false);
   return (
     <Pressable
-      key={key}
       onPress={() => {
         navigation.navigate("OfferScreen");
       }}
     >
       <Card
         containerStyle={{
-          marginHorizontal: 0,
+          padding: 0,
+          borderRadius: 4,
+          marginHorizontal: 5,
           marginVertical: 10,
+          position: "relative",
         }}
       >
+        <TouchableOpacity
+          onPress={() => {
+            setFavorite(!favorite);
+          }}
+        >
+          <Icon
+            size={25}
+            name={favorite ? "heart" : "heart-outline"}
+            type='material-community'
+            color={favorite ? theme.colors.primary : theme.colors.grey3}
+            containerStyle={{ position: "absolute", top: 10, right: 10 }}
+          />
+        </TouchableOpacity>
+
         <View
           style={{
             flexDirection: "row",
@@ -57,15 +73,17 @@ const OfferListCard = ({
           <Image
             source={{ uri: uri }}
             containerStyle={{
+              borderTopLeftRadius: 4,
+              borderBottomLeftRadius: 4,
               aspectRatio: 4 / 5,
-              height: 100,
+              height: 130,
             }}
           />
-          <View style={{ marginLeft: 20 }}>
+          <View style={{ marginLeft: 20, paddingVertical: 10 }}>
             <Text style={{ fontSize: 16 }}>{title}</Text>
             <Text
               style={{
-                fontSize: 19,
+                fontSize: 21,
                 marginTop: 2,
                 fontWeight: "bold",
               }}
@@ -74,19 +92,36 @@ const OfferListCard = ({
             </Text>
             <Text
               style={{
-                marginTop: 10,
-                fontSize: 15,
+                marginTop: 20,
+                fontSize: 13,
+                color: theme.colors.grey3,
               }}
             >
               {organization}
             </Text>
-            <Text
+            <View
               style={{
-                color: theme.colors.grey3,
+                flexDirection: "row",
+                alignItems: "center",
+                marginTop: 2,
               }}
             >
-              {city}
-            </Text>
+              <Icon
+                name='map-marker'
+                type='material-community'
+                size={14}
+                color={theme.colors.grey3}
+                style={{ marginRight: 2 }}
+              />
+              <Text
+                style={{
+                  fontSize: 13,
+                  color: theme.colors.grey3,
+                }}
+              >
+                {city}
+              </Text>
+            </View>
           </View>
         </View>
       </Card>

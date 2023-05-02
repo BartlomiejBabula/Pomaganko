@@ -37,10 +37,10 @@ const PhotoGallery = ({
         flexDirection: "row",
         marginTop: 8,
         marginBottom: 35,
-        backgroundColor: theme.colors.grey4,
+        backgroundColor: theme.colors.grey5,
         borderRadius: 15,
         paddingHorizontal: 5,
-        borderColor: imageList[0] ? theme.colors.primary : theme.colors.grey4,
+        borderColor: imageList[0] ? theme.colors.primary : theme.colors.grey5,
         borderWidth: 2,
         padding: 5,
       }}

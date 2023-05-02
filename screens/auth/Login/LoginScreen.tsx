@@ -1,5 +1,11 @@
-import { useState, useEffect } from "react";
-import { SafeAreaView, View } from "react-native";
+import { useState, useEffect, useRef } from "react";
+import {
+  SafeAreaView,
+  View,
+  TextInput,
+  TouchableWithoutFeedback,
+  Keyboard,
+} from "react-native";
 import { Text, Button, useTheme, Input, Divider } from "@rneui/themed";
 import Animated, { Layout } from "react-native-reanimated";
 import * as WebBrowser from "expo-web-browser";
@@ -16,6 +22,8 @@ import { useIsFocused } from "@react-navigation/native";
 import Header from "./AnimatedHeader";
 import Footer from "./Footer";
 import ButtonGroup from "./ButtonGroup";
+import type { Input as TypeInput } from "@rneui/base";
+import type { UserType } from "../../../reducers/types";
 
 type FormData = {
   email: string;
@@ -50,6 +58,7 @@ const LoginScreen = ({ navigation }: LoginScreenParams) => {
   const [token, setToken] = useState("");
   const [focusInput, setFocusInput] = useState("");
   const isFocused = useIsFocused();
+  const input2 = useRef<TextInput & TypeInput>(null);
 
   const [request, response, promptAsync] = Google.useAuthRequest({
     androidClientId:
@@ -86,11 +95,13 @@ const LoginScreen = ({ navigation }: LoginScreenParams) => {
   };
 
   const handleUserLogging = async (data: FormData) => {
-    console.log(data, "działa");
-    let newuUser = {
-      name: "Testowy",
-      avatar: "",
-      email: "test@test.com",
+    console.log(data);
+    let newuUser: UserType = {
+      name: "Bartłomiej",
+      surname: "Babula",
+      email: "bartłomiej.babula@gmail.com",
+      role: "user",
+      phone: "663221321",
       isLogged: true,
     };
     dispatch(logInAction(newuUser));
@@ -112,10 +123,11 @@ const LoginScreen = ({ navigation }: LoginScreenParams) => {
         );
         const user = await response.json();
         if (user.email) {
-          let newuUser = {
+          let newuUser: UserType = {
             name: user.name,
             avatar: user.picture,
             email: user.email,
+            role: "user",
             isLogged: false,
           };
           dispatch(logInAction(newuUser));
@@ -136,10 +148,11 @@ const LoginScreen = ({ navigation }: LoginScreenParams) => {
           `https://graph.facebook.com/me?access_token=${responseFB.authentication?.accessToken}&fields=id,name,email,picture.type(large)`
         );
         const userInfo = await userInfoResponse.json();
-        let newuUser = {
+        let newuUser: UserType = {
           name: userInfo.name,
           avatar: userInfo.picture.data.url,
           email: userInfo.email,
+          role: "user",
           isLogged: false,
         };
         dispatch(logInAction(newuUser));
@@ -176,123 +189,130 @@ const LoginScreen = ({ navigation }: LoginScreenParams) => {
     <SafeAreaView
       style={{
         flex: 1,
-        backgroundColor: theme.colors.secondary,
+        backgroundColor: theme.colors.white,
       }}
     >
       <Header />
-      <Animated.View
-        layout={Layout.duration(150)}
-        style={{
-          flex: 2,
-          width: "100%",
-          borderTopRightRadius: 25,
-          borderTopLeftRadius: 25,
-          backgroundColor: theme.colors.white,
-          alignItems: "center",
-        }}
-      >
-        <Text
-          h4
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <Animated.View
+          layout={Layout.duration(150)}
           style={{
-            textAlign: "left",
+            flex: 2,
             width: "100%",
-            paddingLeft: "10%",
-            paddingTop: 20,
+            borderTopRightRadius: 25,
+            borderTopLeftRadius: 25,
+            backgroundColor: theme.colors.white,
+            alignItems: "center",
           }}
         >
-          Zaloguj
-        </Text>
-        <View style={{ width: "85%", paddingTop: 25 }}>
-          <Controller
-            control={control}
-            rules={{
-              required: true,
+          <Text
+            h4
+            style={{
+              textAlign: "left",
+              width: "100%",
+              paddingLeft: "10%",
+              paddingTop: 20,
             }}
-            render={({ field: { onChange, value } }) => (
-              <Input
-                onFocus={() => {
-                  setFocusInput("email");
-                }}
-                onBlur={() => {
-                  setFocusInput("");
-                }}
-                onChangeText={onChange}
-                value={value}
-                errorMessage={errors.email ? errors.email?.message : ""}
-                placeholder='Email'
-                // keyboardType='visible-password'
-                autoCorrect={false}
-                inputContainerStyle={{
-                  backgroundColor: theme.colors.grey5,
-                  borderColor:
-                    focusInput === "email"
-                      ? theme.colors.primary
-                      : theme.colors.grey5,
-                  borderWidth: 2,
-                  borderBottomWidth: 2,
-                }}
-                containerStyle={{ marginTop: 0 }}
-              />
-            )}
-            name='email'
-          />
-          <Controller
-            control={control}
-            rules={{
-              required: true,
+          >
+            Zaloguj
+          </Text>
+          <View style={{ width: "85%", paddingTop: 25 }}>
+            <Controller
+              control={control}
+              rules={{
+                required: true,
+              }}
+              render={({ field: { onChange, value } }) => (
+                <Input
+                  onFocus={() => {
+                    setFocusInput("email");
+                  }}
+                  onBlur={() => {
+                    setFocusInput("");
+                  }}
+                  onChangeText={onChange}
+                  value={value}
+                  errorMessage={errors.email ? errors.email?.message : ""}
+                  placeholder='Email'
+                  autoCorrect={false}
+                  returnKeyType={"next"}
+                  blurOnSubmit={false}
+                  onSubmitEditing={() => {
+                    input2.current?.focus();
+                  }}
+                  inputContainerStyle={{
+                    backgroundColor: theme.colors.grey5,
+                    borderColor:
+                      focusInput === "email"
+                        ? theme.colors.primary
+                        : theme.colors.grey5,
+                    borderWidth: 2,
+                    borderBottomWidth: 2,
+                  }}
+                  containerStyle={{ marginTop: 0 }}
+                />
+              )}
+              name='email'
+            />
+            <Controller
+              control={control}
+              rules={{
+                required: true,
+              }}
+              render={({ field: { onChange, value } }) => (
+                <Input
+                  ref={input2}
+                  onFocus={() => {
+                    setFocusInput("password");
+                  }}
+                  onBlur={() => {
+                    setFocusInput("");
+                  }}
+                  onChangeText={onChange}
+                  value={value}
+                  errorMessage={errors.password ? errors.password?.message : ""}
+                  placeholder='Hasło'
+                  secureTextEntry={true}
+                  textContentType='password'
+                  inputContainerStyle={{
+                    backgroundColor: theme.colors.grey5,
+                    borderColor:
+                      focusInput === "password"
+                        ? theme.colors.primary
+                        : theme.colors.grey5,
+                    borderWidth: 2,
+                    borderBottomWidth: 2,
+                  }}
+                />
+              )}
+              name='password'
+            />
+          </View>
+          <Button
+            onPress={() => {
+              navigation.navigate("ResetPassword");
             }}
-            render={({ field: { onChange, value } }) => (
-              <Input
-                onFocus={() => {
-                  setFocusInput("password");
-                }}
-                onBlur={() => {
-                  setFocusInput("");
-                }}
-                onChangeText={onChange}
-                value={value}
-                errorMessage={errors.password ? errors.password?.message : ""}
-                placeholder='Hasło'
-                secureTextEntry={true}
-                textContentType='password'
-                inputContainerStyle={{
-                  backgroundColor: theme.colors.grey5,
-                  borderColor:
-                    focusInput === "password"
-                      ? theme.colors.primary
-                      : theme.colors.grey5,
-                  borderWidth: 2,
-                  borderBottomWidth: 2,
-                }}
-              />
-            )}
-            name='password'
+            title='Nie pamiętasz hasła?'
+            type='clear'
+            containerStyle={{
+              marginTop: 10,
+              alignSelf: "flex-end",
+              paddingRight: "5%",
+              marginBottom: 40,
+            }}
           />
-        </View>
-        <Button
-          onPress={() => {
-            navigation.navigate("ResetPassword");
-          }}
-          title='Nie pamiętasz hasła?'
-          type='clear'
-          containerStyle={{
-            marginTop: 10,
-            alignSelf: "flex-end",
-            paddingRight: "5%",
-            marginBottom: 40,
-          }}
-        />
-        <ButtonGroup
-          handleGoogleUser={handleGoogleUser}
-          handleFBUser={handleFBUser}
-          loadingBttn={loadingBttn}
-          loadingGoogle={loadingGoogle}
-          loadingFb={loadingFb}
-          onSubmit={handleSubmit(handleUserLogging)}
-        />
-        <Divider style={{ width: "90%", marginBottom: 10 }} width={1} />
-        <Footer handleNaviToRegister={handleNaviToRegister} />
-      </Animated.View>
+          <ButtonGroup
+            handleGoogleUser={handleGoogleUser}
+            handleFBUser={handleFBUser}
+            loadingBttn={loadingBttn}
+            loadingGoogle={loadingGoogle}
+            loadingFb={loadingFb}
+            onSubmit={handleSubmit(handleUserLogging)}
+          />
+          <Divider style={{ width: "90%", marginBottom: 10 }} width={1} />
+          <Footer handleNaviToRegister={handleNaviToRegister} />
+        </Animated.View>
+      </TouchableWithoutFeedback>
     </SafeAreaView>
   );
 };

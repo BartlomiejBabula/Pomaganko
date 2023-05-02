@@ -276,6 +276,9 @@ const AddOfferScreen = ({ navigation, route }: AddOfferScreenParams) => {
                 disabledInputStyle={{ opacity: 1 }}
                 value={value}
                 errorMessage={!value ? errors.location?.message : ""}
+                inputContainerStyle={{
+                  backgroundColor: theme.colors.grey5,
+                }}
                 rightIcon={
                   <View style={{ flexDirection: "row", alignItems: "center" }}>
                     <Icon

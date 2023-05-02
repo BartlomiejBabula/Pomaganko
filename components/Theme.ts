@@ -1,4 +1,5 @@
 import { createTheme } from "@rneui/themed";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const theme = createTheme({
   lightColors: {
@@ -30,7 +31,7 @@ export const theme = createTheme({
     }),
 
     Input: () => ({
-      placeholderTextColor: "#768593",
+      // placeholderTextColor: "#768593",
       autoCapitalize: "none",
       autoComplete: "off",
       autoCorrect: false,
@@ -64,7 +65,16 @@ export const theme = createTheme({
     }),
 
     Divider: () => ({
-      color: theme.lightColors?.grey4,
+      color: "#ededed",
     }),
   },
 });
+
+export const setTheme = async (setMode: Function, newTheme: any) => {
+  let theme = await AsyncStorage.getItem("theme");
+  if (newTheme) {
+    theme = newTheme;
+    AsyncStorage.setItem("theme", newTheme);
+  }
+  setMode(theme);
+};

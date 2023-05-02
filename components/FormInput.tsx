@@ -73,6 +73,12 @@ const FormInput = ({
       inputStyle={{
         textAlignVertical: multiline ? "top" : "auto",
       }}
+      inputContainerStyle={{
+        backgroundColor: theme.colors.grey5,
+        borderColor: inputFocused ? theme.colors.primary : theme.colors.grey5,
+        borderWidth: 2,
+        borderBottomWidth: 2,
+      }}
     />
   );
 };

@@ -28,7 +28,7 @@ export const TabStackScreen = () => {
         headerShown: false,
         tabBarHideOnKeyboard: true,
         tabBarIcon: ({ focused, color, size }) => {
-          size = 27;
+          size = 26;
           let iconName: string;
           switch (route.name) {
             case "Home":
@@ -39,7 +39,7 @@ export const TabStackScreen = () => {
               break;
             case "AddOffer":
               iconName = "heart-half-outline";
-              size = 36;
+              size = 34;
               break;
             case "Messages":
               iconName = focused ? "mail" : "mail-outline";
@@ -56,7 +56,7 @@ export const TabStackScreen = () => {
         },
         tabBarActiveTintColor: theme.colors.black,
         tabBarInactiveTintColor: theme.colors.black,
-        tabBarStyle: { height: 55 },
+        tabBarStyle: { height: 48 },
         tabBarShowLabel: false,
       })}
     >
