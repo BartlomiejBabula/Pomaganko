@@ -191,9 +191,9 @@ const OfferScreen = ({ navigation }: OfferModalParams) => {
               >
                 <Avatar
                   title={"Jadłodalnia".charAt(0)}
+                  rounded
                   containerStyle={{
                     backgroundColor: theme.colors.secondary,
-                    borderRadius: 4,
                     marginRight: 20,
                   }}
                   size={"medium"}

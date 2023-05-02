@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Keyboard } from "react-native";
+import { Keyboard, TouchableWithoutFeedback } from "react-native";
 import { useTheme, Image } from "@rneui/themed";
 import Animated, {
   useAnimatedStyle,
@@ -45,30 +45,36 @@ const Header = () => {
   else iconHeight.value = withTiming(140, { duration: 150 });
 
   return (
-    <Animated.View
-      layout={Layout.duration(150)}
-      style={{ flex: 1, alignItems: "center", position: "relative" }}
-    >
-      <Image
-        source={{
-          uri: `https://source.unsplash.com/1080x900/?charity-people`,
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <Animated.View
+        layout={Layout.duration(150)}
+        style={{
+          flex: 1,
+          alignItems: "center",
+          position: "relative",
         }}
-        containerStyle={{
-          top: 0,
-          left: 0,
-          height: 340,
-          width: "100%",
-          position: "absolute",
-          zIndex: 0,
-          opacity: 0.2,
-        }}
-      />
-      <AnimatedIcon
-        name='charity'
-        color={theme.colors.white}
-        style={animatedIconStyle}
-      />
-    </Animated.View>
+      >
+        <Image
+          source={{
+            uri: `https://source.unsplash.com/1080x900/?charity-people`,
+          }}
+          containerStyle={{
+            top: 0,
+            left: 0,
+            height: 340,
+            width: "100%",
+            position: "absolute",
+            zIndex: 0,
+            opacity: 0.85,
+          }}
+        />
+        <AnimatedIcon
+          name='charity'
+          color={theme.colors.white}
+          style={animatedIconStyle}
+        />
+      </Animated.View>
+    </TouchableWithoutFeedback>
   );
 };
 

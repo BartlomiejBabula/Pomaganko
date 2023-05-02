@@ -48,6 +48,10 @@ export type SelectLocationParamList = {
 export type SettingsModalsStackParamList = {
   SettingsLocations: undefined;
   SettingsTheme: undefined;
+  SettingsChangePassword: undefined;
+  SettingsLocalization: undefined;
+  SettingsProfile: undefined;
+  AboutApp: undefined;
 };
 
 export type LoginStackParamList = {
@@ -95,6 +99,16 @@ export type SettingsLocationsScreenParams = NativeStackScreenProps<
   "SettingsLocations"
 >;
 
+export type SettingsProfileScreenParams = NativeStackScreenProps<
+  SettingsModalsStackParamList,
+  "SettingsProfile"
+>;
+
+export type AboutAppScreenParams = NativeStackScreenProps<
+  SettingsModalsStackParamList,
+  "AboutApp"
+>;
+
 export type HomeScreenParams = NativeStackScreenProps<
   TabNavigationParamList,
   "Home"
@@ -103,6 +117,16 @@ export type HomeScreenParams = NativeStackScreenProps<
 export type SettingsThemeScreenParams = NativeStackScreenProps<
   SettingsModalsStackParamList,
   "SettingsTheme"
+>;
+
+export type SettingsChangePasswordScreenParams = NativeStackScreenProps<
+  SettingsModalsStackParamList,
+  "SettingsChangePassword"
+>;
+
+export type SettingsLocalizationScreenParams = NativeStackScreenProps<
+  SettingsModalsStackParamList,
+  "SettingsLocalization"
 >;
 
 export type AddOfferScreenParams = NativeStackScreenProps<

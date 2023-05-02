@@ -60,15 +60,16 @@ const SearchScreen = ({ navigation }: SearchScreenParams) => {
       <Divider />
       <ScrollView>
         {TestItemList?.map((offer, i) => (
-          <OfferListCard
-            key={i}
-            navigation={navigation}
-            uri={offer.image}
-            title={offer.title}
-            city={offer.title}
-            organization={offer.organization}
-            price={offer.price}
-          />
+          <View key={i}>
+            <OfferListCard
+              navigation={navigation}
+              uri={offer.image}
+              title={offer.title}
+              city={offer.city}
+              organization={offer.organization}
+              price={offer.price}
+            />
+          </View>
         ))}
       </ScrollView>
     </SafeAreaView>

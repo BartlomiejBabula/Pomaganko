@@ -109,9 +109,9 @@ const ChatScreen = ({ navigation, route }: ChatScreenParams) => {
         >
           <Avatar
             title={params.user.charAt(0)}
+            rounded
             containerStyle={{
               backgroundColor: theme.colors.secondary,
-              borderRadius: 4,
             }}
             size={"medium"}
           />

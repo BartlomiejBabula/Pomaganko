@@ -40,7 +40,7 @@ const MessagesScreen = ({ navigation }: MessagesScreenParams) => {
               padding: 5,
             }}
           >
-            <View style={{ flexDirection: "row" }}>
+            <View style={{ flexDirection: "row", paddingVertical: 2 }}>
               <TouchableOpacity
                 onPress={() => {
                   navigation.navigate("CharityProfile", {
@@ -50,9 +50,9 @@ const MessagesScreen = ({ navigation }: MessagesScreenParams) => {
               >
                 <Avatar
                   title={message.name.charAt(0)}
+                  rounded
                   containerStyle={{
                     backgroundColor: theme.colors.secondary,
-                    borderRadius: 4,
                     marginRight: 20,
                   }}
                   size={"medium"}

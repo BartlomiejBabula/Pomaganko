@@ -24,7 +24,7 @@ const CharityProfileScreen = ({
 }: CharityProfileScreenParams) => {
   const [expand, setExpand] = useState<boolean>(false);
   const [expandLines, setExpandLines] = useState<number>(0);
-  const [animatedAvatarSize, setAnimatedAvatarSize] = useState<number>(75);
+  const [animatedAvatarSize, setAnimatedAvatarSize] = useState<number>(60);
   const [animatedAvatarMargin, setAnimatedAvatarMargin] = useState<number>(0);
   const animatedInfoHeight = useSharedValue(150);
   const animatedColor = useSharedValue(0);
@@ -73,24 +73,24 @@ const CharityProfileScreen = ({
   };
 
   const handleScrollActions: OnScrollEventHandler = (e) => {
-    if (e.nativeEvent.contentOffset.y >= 130) {
-      animatedColor.value = e.nativeEvent.contentOffset.y / 130;
+    if (e.nativeEvent.contentOffset.y >= 120) {
+      animatedColor.value = e.nativeEvent.contentOffset.y / 120;
       if (!showHeader) {
         setShowHeader(true);
       }
     }
-    if (e.nativeEvent.contentOffset.y <= 130) {
-      animatedColor.value = e.nativeEvent.contentOffset.y / 130;
+    if (e.nativeEvent.contentOffset.y <= 120) {
+      animatedColor.value = e.nativeEvent.contentOffset.y / 120;
       if (showHeader) {
         setShowHeader(false);
       }
     }
     if (
-      e.nativeEvent.contentOffset.y <= 130 ||
-      e.nativeEvent.contentOffset.y >= 130
+      e.nativeEvent.contentOffset.y <= 120 ||
+      e.nativeEvent.contentOffset.y >= 120
     ) {
-      setAnimatedAvatarMargin(e.nativeEvent.contentOffset.y / 4.2);
-      setAnimatedAvatarSize(75 - e.nativeEvent.contentOffset.y / 5);
+      setAnimatedAvatarMargin(e.nativeEvent.contentOffset.y / 10);
+      setAnimatedAvatarSize(60 - e.nativeEvent.contentOffset.y / 10);
     }
   };
 
@@ -136,22 +136,22 @@ const CharityProfileScreen = ({
         <View
           style={{
             position: "absolute",
-            top: 125,
+            top: 135,
             left: 22,
             marginTop: animatedAvatarMargin,
           }}
         >
           <Avatar
             title={name.charAt(0)}
+            rounded
             containerStyle={{
               backgroundColor: theme.colors.secondary,
-              borderRadius: 4,
-              borderWidth: 3,
+              borderWidth: 2,
               borderColor: theme.colors.white,
-              minHeight: 40,
-              minWidth: 40,
-              maxHeight: 75,
-              maxWidth: 75,
+              minHeight: 35,
+              minWidth: 35,
+              maxHeight: 60,
+              maxWidth: 60,
             }}
             size={animatedAvatarSize}
           />
@@ -159,7 +159,7 @@ const CharityProfileScreen = ({
         <View
           style={{
             position: "absolute",
-            top: 170,
+            top: 160,
             right: 20,
           }}
         >
@@ -238,17 +238,22 @@ const CharityProfileScreen = ({
           )}
         </View>
         <Divider />
-        <View style={{ backgroundColor: theme.colors.grey4 }}>
+        <View
+          style={{
+            backgroundColor: theme.colors.grey4,
+          }}
+        >
           {TestItemList?.map((offer, i) => (
-            <OfferListCard
-              key={i}
-              navigation={navigation}
-              uri={offer.image}
-              title={offer.title}
-              city={offer.title}
-              organization={name}
-              price={offer.price}
-            />
+            <View key={i}>
+              <OfferListCard
+                navigation={navigation}
+                uri={offer.image}
+                title={offer.title}
+                city={offer.city}
+                organization={name}
+                price={offer.price}
+              />
+            </View>
           ))}
         </View>
       </Animated.ScrollView>

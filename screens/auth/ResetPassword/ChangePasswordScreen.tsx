@@ -1,11 +1,19 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Icon, Text, useTheme, Input } from "@rneui/themed";
-import { TouchableOpacity, View, SafeAreaView } from "react-native";
+import {
+  TouchableOpacity,
+  View,
+  SafeAreaView,
+  TextInput,
+  Keyboard,
+  TouchableWithoutFeedback,
+} from "react-native";
 import { ChangePasswordParams } from "../../../routes/types";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm, Controller } from "react-hook-form";
 import ButtonSubmit from "../../../components/ButtonSubmit";
+import type { Input as TypeInput } from "@rneui/base";
 
 type FormData = {
   password: string;
@@ -31,6 +39,7 @@ const ChangePasswordScreen = ({ navigation }: ChangePasswordParams) => {
   const [loading, setLoading] = useState(false);
   const [focusInput, setFocusInput] = useState("");
   const { theme } = useTheme();
+  const input2 = useRef<TextInput & TypeInput>(null);
 
   const {
     control,
@@ -51,139 +60,153 @@ const ChangePasswordScreen = ({ navigation }: ChangePasswordParams) => {
   };
 
   return (
-    <SafeAreaView
-      style={{
-        paddingVertical: 45,
-        backgroundColor: theme.colors.white,
-        flex: 1,
-      }}
-    >
-      <View
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <SafeAreaView
         style={{
-          flexDirection: "row",
-          alignItems: "center",
-          paddingHorizontal: 10,
-          marginBottom: 35,
+          paddingVertical: 45,
+          backgroundColor: theme.colors.white,
+          flex: 1,
         }}
       >
-        <TouchableOpacity
-          onPress={() => {
-            navigation.goBack();
-          }}
-        >
-          <Icon
-            name='arrow-left'
-            size={26}
-            color={theme.colors.black}
-            type='material-community'
-            containerStyle={{ marginRight: 25 }}
-          />
-        </TouchableOpacity>
-      </View>
-      <View style={{ marginHorizontal: "5%" }}>
-        <Text h2>Nowe Hasło</Text>
-        <Text
+        <View
           style={{
-            color: theme.colors.grey3,
-            fontSize: 14,
-            marginTop: 40,
-            marginBottom: 30,
-            marginRight: "25%",
+            flexDirection: "row",
+            alignItems: "center",
+            paddingHorizontal: 10,
+            marginBottom: 35,
           }}
         >
-          Wprowadź nowe hasło, pamiętaj powinno składać się z minimum 6 znaków
-          oraz zawierać dużą, małą literę oraz cyfrę
-        </Text>
-        <Controller
-          control={control}
-          rules={{
-            required: true,
-          }}
-          render={({ field: { onChange, value } }) => (
-            <Input
-              onFocus={() => {
-                setFocusInput("password");
-              }}
-              onBlur={() => {
-                setFocusInput("");
-              }}
-              onChangeText={onChange}
-              value={value}
-              secureTextEntry={true}
-              label={"Nowe hasło"}
-              keyboardType='default'
-              placeholder={"Wprowadź nowe hasło"}
-              errorMessage={errors.password ? errors.password?.message : ""}
-              inputContainerStyle={{
-                backgroundColor: theme.colors.grey5,
-                borderColor:
-                  focusInput === "password"
-                    ? theme.colors.secondary
-                    : theme.colors.grey5,
-                borderWidth: 2,
-                borderBottomWidth: 2,
-              }}
-            />
-          )}
-          name='password'
-        />
-        <Controller
-          control={control}
-          rules={{
-            required: true,
-          }}
-          render={({ field: { onChange, value } }) => (
-            <Input
-              onFocus={() => {
-                setFocusInput("rePassword");
-              }}
-              onBlur={() => {
-                setFocusInput("");
-              }}
-              secureTextEntry={true}
-              onChangeText={onChange}
-              value={value}
-              label={"Powtórz hasło"}
-              keyboardType='default'
-              placeholder={"Powtórz hasło"}
-              errorMessage={errors.rePassword ? errors.rePassword?.message : ""}
-              inputContainerStyle={{
-                backgroundColor: theme.colors.grey5,
-                borderColor:
-                  focusInput === "rePassword"
-                    ? theme.colors.secondary
-                    : theme.colors.grey5,
-                borderWidth: 2,
-                borderBottomWidth: 2,
-              }}
-            />
-          )}
-          name='rePassword'
-        />
-        <TouchableOpacity
-          onPress={() => {
-            navigation.navigate("Login");
-          }}
-        >
-          <Text
-            style={{
-              color: theme.colors.grey3,
-              fontSize: 14,
-              textAlign: "center",
-              marginTop: 30,
-              marginBottom: 20,
+          <TouchableOpacity
+            onPress={() => {
+              navigation.goBack();
             }}
           >
-            Cofnij do ekranu logowania
-          </Text>
-        </TouchableOpacity>
-        <ButtonSubmit
-          onPress={handleSubmit(onSubmit)}
-          title='Wyślij'
-          loading={loading}
-        />
-      </View>
-    </SafeAreaView>
+            <Icon
+              name='arrow-left'
+              size={26}
+              color={theme.colors.black}
+              type='material-community'
+              containerStyle={{ marginRight: 25 }}
+            />
+          </TouchableOpacity>
+        </View>
+        <View style={{ marginHorizontal: "5%" }}>
+          <View>
+            <Text h2>Nowe Hasło</Text>
+            <Text
+              style={{
+                color: theme.colors.grey3,
+                fontSize: 14,
+                marginTop: 30,
+                marginBottom: 30,
+                marginRight: "15%",
+              }}
+            >
+              Wprowadź nowe hasło, pamiętaj powinno składać się z minimum 6
+              znaków oraz zawierać dużą, małą literę oraz cyfrę
+            </Text>
+          </View>
+          <View>
+            <Controller
+              control={control}
+              rules={{
+                required: true,
+              }}
+              render={({ field: { onChange, value } }) => (
+                <Input
+                  returnKeyType={"next"}
+                  blurOnSubmit={false}
+                  onSubmitEditing={() => {
+                    input2.current?.focus();
+                  }}
+                  onFocus={() => {
+                    setFocusInput("password");
+                  }}
+                  onBlur={() => {
+                    setFocusInput("");
+                  }}
+                  onChangeText={onChange}
+                  value={value}
+                  secureTextEntry={true}
+                  label={"Nowe hasło"}
+                  keyboardType='default'
+                  placeholder={"Wprowadź nowe hasło"}
+                  errorMessage={errors.password ? errors.password?.message : ""}
+                  inputContainerStyle={{
+                    backgroundColor: theme.colors.grey5,
+                    borderColor:
+                      focusInput === "password"
+                        ? theme.colors.secondary
+                        : theme.colors.grey5,
+                    borderWidth: 2,
+                    borderBottomWidth: 2,
+                  }}
+                />
+              )}
+              name='password'
+            />
+            <Controller
+              control={control}
+              rules={{
+                required: true,
+              }}
+              render={({ field: { onChange, value } }) => (
+                <Input
+                  ref={input2}
+                  onFocus={() => {
+                    setFocusInput("rePassword");
+                  }}
+                  onBlur={() => {
+                    setFocusInput("");
+                  }}
+                  secureTextEntry={true}
+                  onChangeText={onChange}
+                  value={value}
+                  label={"Powtórz hasło"}
+                  keyboardType='default'
+                  placeholder={"Powtórz hasło"}
+                  errorMessage={
+                    errors.rePassword ? errors.rePassword?.message : ""
+                  }
+                  inputContainerStyle={{
+                    backgroundColor: theme.colors.grey5,
+                    borderColor:
+                      focusInput === "rePassword"
+                        ? theme.colors.secondary
+                        : theme.colors.grey5,
+                    borderWidth: 2,
+                    borderBottomWidth: 2,
+                  }}
+                />
+              )}
+              name='rePassword'
+            />
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate("Login");
+              }}
+            >
+              <Text
+                style={{
+                  color: theme.colors.grey3,
+                  fontSize: 14,
+                  textAlign: "center",
+                  marginTop: 30,
+                  marginBottom: 20,
+                }}
+              >
+                Cofnij do ekranu logowania
+              </Text>
+            </TouchableOpacity>
+            <ButtonSubmit
+              onPress={handleSubmit(onSubmit)}
+              title='Wyślij'
+              loading={loading}
+            />
+          </View>
+        </View>
+      </SafeAreaView>
+    </TouchableWithoutFeedback>
   );
 };
 
